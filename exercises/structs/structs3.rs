@@ -7,7 +7,6 @@
 // Execute `rustlings hint structs3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 #[derive(Debug)]
 struct Package {
@@ -29,12 +28,12 @@ impl Package {
         }
     }
 
-    fn is_international(&self) -> ??? {
-        // Something goes here...
+    fn is_international(&self) -> bool {
+        return self.sender_country != self.recipient_country;
     }
 
-    fn get_fees(&self, cents_per_gram: i32) -> ??? {
-        // Something goes here...
+    fn get_fees(&self, cents_per_gram: i32) -> i32{
+        self.weight_in_grams * cents_per_gram
     }
 }
 
@@ -84,3 +83,25 @@ mod tests {
         assert_eq!(package.get_fees(cents_per_gram * 2), 9000);
     }
 }
+
+// 结构体定义：
+
+// #[derive(Debug)]：这个宏允许结构体实例使用调试格式进行打印，方便调试。
+// struct Package：定义了一个名为 Package 的结构体，包含三个字段：
+// sender_country: String：寄件国家。
+// recipient_country: String：收件国家。
+// weight_in_grams: i32：包裹重量，以克为单位。
+// 实现块 impl Package：
+
+// fn new(...) -> Package：关联函数，用于创建新的 Package 实例。如果输入的重量小于等于0，则程序会崩溃并显示错误信息。
+// fn is_international(&self) -> bool：方法判断包裹是否是国际包裹。如果寄件国和收件国不同，则视为国际包裹，返回 true。
+// fn get_fees(&self, cents_per_gram: i32) -> i32：方法计算运费。运费等于包裹重量乘以每克的费用（以美分为单位）。
+// 测试模块 #[cfg(test)] mod tests：
+
+// 使用 #[cfg(test)] 标记这个模块只在测试时编译。
+// use super::*;：引入外部模块的所有内容，以便进行测试。
+// 定义了几个测试用例：
+// fail_creating_weightless_package：测试尝试创建一个重量为负数的包裹，会导致程序崩溃。
+// create_international_package：测试创建一个国际包裹的功能，判断是否返回 true。
+// create_local_package：测试创建一个国内包裹的功能，判断是否返回 false。
+// calculate_transport_fees：测试运费计算功能，验证给定的重量和费用是否正确计算出预期的运费。
