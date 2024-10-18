@@ -22,30 +22,28 @@
 // Execute `rustlings hint tests5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+/// # Safety  
+///  
+/// `address` 必须包含指向有效的 `u32` 值的可变引用。  
+/// 调用者必须确保该地址指向一个唯一且有效的  
+/// 存储位置，在该位置存放的是一个 `u32`。  
+unsafe fn modify_by_address(address: usize) {  
+    // SAFETY: 我们假设该地址是有效的，并且指向一个  
+    // 可变的 `u32`。调用者对该操作的安全性负责。  
+    let ptr = address as *mut u32; // 将地址转换为可变指针  
+    *ptr = 0xAABBCCDD;              // 修改给定地址处的值  
+}  
 
-/// # Safety
-///
-/// The `address` must contain a mutable reference to a valid `u32` value.
-unsafe fn modify_by_address(address: usize) {
-    // TODO: Fill your safety notice of the code block below to match your
-    // code's behavior and the contract of this function. You may use the
-    // comment of the test below as your format reference.
-    unsafe {
-        todo!("Your code goes here")
-    }
-}
+#[cfg(test)]  
+mod tests {  
+    use super::*;  
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_success() {
-        let mut t: u32 = 0x12345678;
-        // SAFETY: The address is guaranteed to be valid and contains
-        // a unique reference to a `u32` local variable.
-        unsafe { modify_by_address(&mut t as *mut u32 as usize) };
-        assert!(t == 0xAABBCCDD);
-    }
+    #[test]  
+    fn test_success() {  
+        let mut t: u32 = 0x12345678;  
+        // SAFETY: 该地址被保证是有效的，并且包含  
+        // 指向一个 `u32` 本地变量的唯一引用。  
+        unsafe { modify_by_address(&mut t as *mut u32 as usize) };  
+        assert!(t == 0xAABBCCDD);  
+    }  
 }
